@@ -1,6 +1,4 @@
 # customasm
-This is a fork of the original customasm. It is made for the FPGA-based CPU
-
 This is an assembler that takes custom instruction set definitions
 and uses them to assemble source files.  
 This can be useful if you'd like to test out a new virtual machine's bytecode,
