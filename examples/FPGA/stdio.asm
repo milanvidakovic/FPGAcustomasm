@@ -6,7 +6,7 @@ VIDEO_0 = 2400 ; beginning of the text frame buffer
 ; 	push <cursor_offset>
 ; 	push <number_to_be_printed_or_register_to_be_printed>
 ;		call print_num   ; call print_num 
-;		sub sp, 1        ; return the stack pointer to the state before calling the print_num
+;		sub sp, 2        ; return the stack pointer to the state before calling the print_num
 ; ###########################################################
 print_num:
 	; arguments:
@@ -63,9 +63,10 @@ again3:
 ; #######################################################################################
 ; print_str function which prints a number on a screen
 ; to call it, you must:
+; 	push <cursor_offset>
 ; 	push <address_of_the_string>
 ;		call print_str  ; call print_str
-;		sub sp, 1        ; return the stack pointer to the state before calling the print_num
+;		sub sp, 2        ; return the stack pointer to the state before calling the print_num
 ; #######################################################################################
 print_str:
 
@@ -77,6 +78,7 @@ print_str:
 
 	ld r0, [r7 - 3]
   mov r1, VIDEO_0      ; write digits into the VIDEO memory
+  add r1, [r7 - 4]
 print_str_again:  
 	ld r2, [r0]  					; fetch the current character
   cmp r2, 0							; terminating zero
