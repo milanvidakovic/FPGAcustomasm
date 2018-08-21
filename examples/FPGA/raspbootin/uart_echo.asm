@@ -4,7 +4,7 @@
 ; REAL START OF THE PROGRAM
 ; ########################################################
 
-	mov sp, 1000
+	mov sp, 40000
 
 	mov r0, 14
 	st [cursor], r0

@@ -84,8 +84,8 @@ print_str_again:
   cmp r2, 0							; terminating zero
   jz print_str_end
   st [r1], r2						; store current character in the current video address
-  inc r0
-  inc r1
+  add r0,2
+  add r1,2
 	j print_str_again	             
 
 print_str_end:

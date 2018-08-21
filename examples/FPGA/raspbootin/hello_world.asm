@@ -2,7 +2,7 @@
 #addr 0x400
 VIDEO_0 = 2400 ; beginning of the text frame buffer
 
-	mov r2, 0      ; r1 is the index
+	mov r2, 0      ; r2 is the index
 	mov r1, hello  ; r1 holds the address of the "HELLO WORLD" string
 again:	
 	ld.b r0, [r1]          ; load r0 with the content of the memory location to which r1 points (current character)
