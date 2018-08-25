@@ -7,7 +7,7 @@
 ; REAL START OF THE PROGRAM
 ; ########################################################
 
-	mov sp, 40000
+	mov sp, 2000
 
 	mov r0, 1
 	out [128], r0  ; set the video mode to graphics
