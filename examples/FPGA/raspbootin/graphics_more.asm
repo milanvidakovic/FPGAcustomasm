@@ -7,10 +7,10 @@
 ; REAL START OF THE PROGRAM
 ; ########################################################
 
-	mov sp, 2000
+	mov sp, 26000
 
 	mov r0, 1
-	out [128], r0  ; set the video mode to graphics
+	out [PORT_VIDEO_MODE], r0  ; set the video mode to graphics
 
 	mov r0, 320*1/4  ; wipe first line of the screen
 	call wipe

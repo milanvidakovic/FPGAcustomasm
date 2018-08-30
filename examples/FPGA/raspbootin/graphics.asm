@@ -1,19 +1,20 @@
 ; this program will draw two thick lines in graphics mode
-; video memory starts at 2400
+; video memory starts at 26880
 ; each line is 160 bytes long
 ; each byte contains two pixels, four bits each: xrgbxrgb
+#include "consts.asm"
 #addr 0x400
 ; ########################################################
 ; REAL START OF THE PROGRAM
 ; ########################################################
 
-	mov sp, 2000
+	mov sp, 26000
 
 	mov r0, 1
-	out [128], r0  ; set the video mode to graphics
+	out [PORT_VIDEO_MODE], r0  ; set the video mode to graphics
 	
 	; set 1 to LEDs
-	out [67], r0  ; totally unrelated to this demo - just to set LEDs
+	out [PORT_LED], r0  ; totally unrelated to this demo - just to set LEDs
 
 	; now we continue with the demo
 	; first line (one pixel thick) at the top of the screen
@@ -57,4 +58,3 @@ loop3:
 end:	
 	halt
 
-#include "stdio.asm"

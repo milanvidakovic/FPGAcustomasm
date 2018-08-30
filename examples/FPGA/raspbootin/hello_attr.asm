@@ -1,7 +1,8 @@
 #addr 0x400
+#include "consts.asm"
+
 ; this program will print HELLO WORLD
-VIDEO_0 = 2400
-VIDEO_1 = VIDEO_0 + 15*160 ; beginning of the text frame buffer
+VIDEO_1 = VIDEO_0 + 15*160 
 
 	call wipe
 	

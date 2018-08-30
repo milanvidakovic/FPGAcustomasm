@@ -1,6 +1,6 @@
 ; this program will print HELLO WORLD
 #addr 0x400
-	mov sp, 40000
+	mov sp, 26000
 	push 20						; cursor offset: first row, 11'th character
 	push hello_str
 	call print_str

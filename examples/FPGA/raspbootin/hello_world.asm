@@ -1,6 +1,6 @@
 ; this program will print HELLO WORLD
+#include "consts.asm"
 #addr 0x400
-VIDEO_0 = 2400 ; beginning of the text frame buffer
 
 	mov r2, 0      ; r2 is the index
 	mov r1, hello  ; r1 holds the address of the "HELLO WORLD" string

@@ -1,5 +1,5 @@
 ; this is the boot loader compatible with the raspbootin loader
-VIDEO_0 = 2400 ; beginning of the text frame buffer
+VIDEO_0 = 26880 ; beginning of the text frame buffer
 
 ; ########################################################
 ; RESET CODE (4 bytes max)

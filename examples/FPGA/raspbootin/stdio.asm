@@ -1,4 +1,4 @@
-VIDEO_0 = 2400 ; beginning of the text frame buffer
+#include "consts.asm"
 
 ; ###########################################################
 ; print_num function which prints a number on a screen
@@ -6,7 +6,7 @@ VIDEO_0 = 2400 ; beginning of the text frame buffer
 ; 	push <cursor_offset>
 ; 	push <number_to_be_printed_or_register_to_be_printed>
 ;		call print_num   	; call print_num 
-;		sub sp, 2        	; return the stack pointer to the state before calling the print_num
+;		sub sp, 4        	; return the stack pointer to the state before calling the print_num
 ; ###########################################################
 print_num:
 	; arguments:

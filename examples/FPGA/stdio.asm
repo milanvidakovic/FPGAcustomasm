@@ -1,4 +1,4 @@
-VIDEO_0 = 2400 ; beginning of the text frame buffer
+VIDEO_0 = 26880 ; beginning of the text frame buffer
 
 ; ###########################################################
 ; print_num function which prints a number on a screen
