@@ -15,11 +15,11 @@
 	mov r0, 320*1/4  ; wipe first line of the screen
 	call wipe
 
- 	mov r0, 0		; x = 0
+ 	mov r0, 1		; x = 1
  	mov r1, 100	; y = 100
  	mov r2, 7		; white color (0111)
  	call pixel
- 	inc r0			; x = 1
+ 	inc r0			; x = 2
  	mov r2, 4		; red color (0100)
  	call pixel	
 
@@ -91,10 +91,10 @@ pixel:
 	
 	mul r1, 160	; gives the offset from the beginning of the framebuffer
 	div r0, 2		; divide x coordinate by 4; it gives the offset from the beginning of the line
-							; h holds the position of the pixel within the word (0 - 3)
+							; h holds the position of the pixel within the byte (0 - 1)
 							; r0 is the offset in bytes
 	add r1, VIDEO_0
-	add r0, r1	; r0 holds the address of the pixel (the whole group of four pixels)
+	add r0, r1	; r0 holds the address of the pixel (the group of two pixels in that byte)
 	
 	mov r3, 0x1		; set the mask for wiping 
 	sub r3, h			; (h == 0) -> (r3 == 1); (h == 1) -> (r3 == 0)
@@ -108,7 +108,7 @@ pixel:
 	shl r2, r3	; we shift the color of the pixel r3 times to the left
 	or r4, r2		; we insert the pixel into surrounding pixels
 	
-	st.b [r0], r4	; save all four pixels into the framebuffer
+	st.b [r0], r4	; save two pixels into the framebuffer
 
 	pop r4
 	pop r3

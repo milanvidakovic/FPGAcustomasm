@@ -12,6 +12,7 @@ PORT_UART_TX_BUSY					= 65	; uart tx busy port (read)
 PORT_UART_TX_SEND_BYTE		= 66	; port which is used to transmit a byte (write)
 PORT_LED									= 67	; port for setting eight LEDs (write)
 PORT_KEYBOARD 						= 68	; raw keyboard character read port 
+PORT_MILLIS 							= 69	; current number of milliseconds counted so far
 
 PORT_VIDEO_MODE						= 128	; video mode type (0-text; 1-graphics), (write)
 

@@ -1,4 +1,4 @@
-#include "consts.asm"
+#include "keyboard.asm"
 
 ; ###########################################################
 ; print_num function which prints a number on a screen
@@ -32,6 +32,9 @@ again1:
 	jnz again1
 	
 	ld r0, [r7 - 6]  		; load r0 with the number to be printed (the first and the only argument of this function)
+	cmp r0, 0
+	js print_num_negative
+print_num_1:
 	mov r1, 0						; counter of digits
 	mov r6, r7
 again2:	
@@ -59,6 +62,10 @@ again3:
 	mov sp, r7	       	; restore the old stack pointer
 	pop r7						 	; restore the old frame pointer
 	ret
+print_num_negative:
+	neg r0
+	add r0, 1
+	j print_num_1
 
 ; #######################################################################################
 ; print_str function which prints a number on a screen
@@ -93,3 +100,4 @@ print_str_end:
 	mov sp, r7	       		; restore the old stack pointer
 	pop r7						 		; restore the old frame pointer
 	ret
+

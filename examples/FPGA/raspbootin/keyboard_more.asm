@@ -778,6 +778,7 @@ vk_char_table:
 	#d16 VK_COMMA, 44, 60	; ,, <
 	#d16 VK_FULL_STOP, 46, 62	; ., >
 	#d16 VK_LESS_THAN, 60, 62	; <, >
+	#d16 VK_SLASH, 47, 63	; /, ?
 	#d16 0xFFFF	
 	
 	
