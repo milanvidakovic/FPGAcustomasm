@@ -28,12 +28,15 @@ HEIGHT = 40
 	mov r1, KEY_RELEASED_HANDLER_ADDR + 2
 	st [r1], r0
 
-	mov r0, 0
-	st [VIRTUAL_KEY_ADDR], r0	; reset the virtual key code
-		
 	in r0, [PORT_MILLIS]		; get current number of milliseconds
 	st [seed], r0
 
+snakes_again:
+	mov r0, 0
+	st [VIRTUAL_KEY_ADDR], r0	; reset the virtual key code
+	st [n], r0
+	st [end], r0
+	st [points], r0
 
 	call draw_frame
 	call print_status
@@ -66,6 +69,17 @@ main1:
 ; $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 game_over:	
+	ld r0, [is_key_pressed]
+	cmp r0, 1
+	jz go_key
+	j game_over
+go_key:
+	mov r0, 0
+	st [is_key_pressed], r0
+	ld r0, [VIRTUAL_KEY_ADDR]
+	cmp r0, VK_ENTER
+	jz snakes_again
+	j game_over
 	halt
 
 key_is_pressed:
@@ -376,7 +390,7 @@ clrscr:
 clrscr1:	
 	st [r1 + VIDEO_0], r0
 	inc r1
-	cmp r1, HEIGHT*80
+	cmp r1, (STARTY+HEIGHT)*160
 	jnz clrscr1
 	
 	pop r1
