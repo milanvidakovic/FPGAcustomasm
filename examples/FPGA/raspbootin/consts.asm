@@ -2,10 +2,16 @@ VIDEO_0 = 26880 ; beginning of the text frame buffer
 
 KEY1_HANDLER_ADDR					= 8		; key handler address (KEY1 on DE0-NANO)
 UART_HANDLER_ADDR					= 16	; uart IRQ#1 handler (uart receive byte handler)
+
 IRQ2_ADDR 								= 24	; address of the IRQ#2 handler address (raw PS/2 keyboard handler)
 KEY_PRESSED_HANDLER_ADDR	= 32	; address of the key pressed handler address (invoked from the IRQ2_ADDR handler)
 KEY_RELEASED_HANDLER_ADDR	= 40	; address of the key released handler address (invoked from the IRQ2_ADDR handler)
 VIRTUAL_KEY_ADDR					= 48	; address where the virtual key is placed
+
+SPRITE_DEFINITION_ADDRESS = 56  ; beginning of the sprite definition structure 
+; (56==sprite address, 58==x, 60==y, 62==transparent color) each element is 2 bytes
+; each sprite definition is 8 bytes long
+; this means that the next sprite is at the address of 64
 
 PORT_UART_RX_BYTE					= 64	; uart rx data received (read)
 PORT_UART_TX_BUSY					= 65	; uart tx busy port (read)

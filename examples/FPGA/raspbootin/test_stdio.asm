@@ -9,7 +9,14 @@
 	mov r0, 16
 	mov r1, 16
 	mul r0, r1
-	push 11*160					; cursor offset: eleventh, the first character
+	push 11*160				; cursor offset: eleventh row, the first character
+	push r0						; number to print
+	call print_num
+	sub sp, 4      	  ; return the stack pointer to the state before calling the print_str
+	
+	mov r0, 256
+	neg r0
+	push 12*160				; cursor offset: 12'th row, the first character
 	push r0						; number to print
 	call print_num
 	sub sp, 4      	  ; return the stack pointer to the state before calling the print_str

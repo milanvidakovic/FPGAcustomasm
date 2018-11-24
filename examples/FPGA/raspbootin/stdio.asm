@@ -64,7 +64,13 @@ again3:
 	ret
 print_num_negative:
 	neg r0
-	add r0, 1
+	mov r2, VIDEO_0     ; write minus sign into the VIDEO memory
+	ld r3, [r7 - 8]
+  add r2, r3       		; add cursor offset to the beginning of the video memory
+  mov r1, 45					; minus sign
+  st [r2], r1 
+  add r3, 2
+  st [r7 - 8], r3  		; move cursor to the right
 	j print_num_1
 
 ; #######################################################################################
@@ -81,7 +87,7 @@ print_str:
 	push r7          			; save the current frame pointer
 	mov r7, sp       			; load the stack frame pointer from the sp
 	add sp, 2        			; move sp to go out of the current stack frame, so we could call another function from this one
-                   			; this is how much we should add: add sp, <size_of_local_variables_space> + 1
+                   			; this is how much we should add: add sp, <size_of_local_variables_space> + 2
 
 	ld r0, [r7 - 6]				; [r7 - 6] holds the pointer to the string to be printed
   mov r1, VIDEO_0      	; write digits into the VIDEO memory
@@ -101,3 +107,31 @@ print_str_end:
 	pop r7						 		; restore the old frame pointer
 	ret
 
+; #######################################################################################
+; wipe_screen function which deletes a screen
+; to call it, you must:
+; 	push <number_of_characters_to_be_deleted>
+;		call print_str  	; call print_str
+;		sub sp, 2        	; return the stack pointer to the state before calling the wipe_screen
+; #######################################################################################
+wipe_screen:
+	; arguments:
+	; [r7 - 8] - number_of_characters_to_be_deleted
+	; prepare the stack frame
+	push r7          			; save the current frame pointer
+	mov r7, sp       			; load the stack frame pointer from the sp
+	add sp, 2        			; move sp to go out of the current stack frame, so we could call another function from this one
+                   			; this is how much we should add: add sp, <size_of_local_variables_space> + 2
+	
+	ld r2, [r7 - 8]				; [r7 - 6] holds the number_of_characters_to_be_deleted
+	mov r0, 0
+ws_loop1:
+	st [r2 + VIDEO_0], r0
+	dec r2
+	jp ws_loop1
+	ret
+	
+	; clean up before returning
+	mov sp, r7	       		; restore the old stack pointer
+	pop r7						 		; restore the old frame pointer
+ret

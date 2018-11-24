@@ -10,7 +10,7 @@
 	mov r0, 1						; JUMP instruction opcode
 	mov r1, IRQ2_ADDR		; IRQ#2 vector address (raw keyboard interrupt)
 	st [r1], r0
-	mov r0, irq_triggered
+	mov r0, my_irq_triggered
 	mov r1, IRQ2_ADDR + 2	  
 	st [r1], r0	; the keyboard IRQ handler has been set
 	
@@ -33,7 +33,7 @@ loop1:
 ; ##################################################################
 ; Subroutine which is called whenever some byte arrives at the UART
 ; ##################################################################
-irq_triggered:	
+my_irq_triggered:	
 	push r0
 	push r1
 	push r2   
@@ -51,7 +51,6 @@ loop2:
 not_busy:
 	out [PORT_UART_TX_SEND_BYTE], r1  ; send the received character to the UART
 	
-skip:
 	pop r6
 	pop r5
 	pop r2

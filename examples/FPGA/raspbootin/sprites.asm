@@ -1,7 +1,7 @@
-; this program will draw lines and circles
-; video memory starts at 2400
-; each line is 160 bytes long
-; each byte contains two pixels, four bits each: xrgbxrgb
+; this program will demonstrate sprites
+; video memory starts at VIDEO_0
+; each sprite is 16x16pixels
+; each sprite byte definition contains two pixels, four bits each: xrgbxrgb
 #addr 0x400
 ; ########################################################
 ; REAL START OF THE PROGRAM
@@ -15,13 +15,25 @@
 	mov r0, 320*1/4  ; wipe first line of the screen
 	call wipe
 
- 	mov r0, 1		; x = 1
- 	mov r1, 100	; y = 100
- 	mov r2, 7		; white color (0111)
- 	call pixel
- 	inc r0			; x = 2
- 	mov r2, 4		; red color (0100)
- 	call pixel	
+
+
+	; first line (one pixel thick) at the top of the screen
+	mov r0, 0x7777 ; four white pixels
+	mov r1, VIDEO_0
+	mov r2, 0
+loop1:
+	st [r1], r0
+	add r1, 2
+	inc r2
+	cmp r2, 80
+	jz next1
+	j loop1
+
+next1:
+
+	mov r0, 0x4444 
+	mov r1, VIDEO_0
+	st [r1], r0     ; four red pixels at (0,0) - (3,0)
 
   mov r2, 4			; red color (0100)
   mov r0, 50		; A.x = 50
@@ -50,9 +62,136 @@
  	mov r3, 50		; r = 50
  	call circle
 
+	; third line (two pixels thick) at the bottom the screen
+	mov r0, 0x4444 ; four red pixels
+	mov r1, VIDEO_0 + 238*160
+	mov r2, 0
+loop3:
+	st [r1], r0
+	add r1, 2
+	inc r2
+	cmp r2, 160
+	jz end
+	j loop3
+
+end:
+
+	mov r0, sprite_def
+	mov r1, SPRITE_DEFINITION_ADDRESS    ; addr 56
+	st [r1], r0  ; sprite definition is at sprite_def address
+	mov r0, 25
+	st [r1 + 2], r0  ; x = 25  at addr 58
+	mov r0, 25
+	st [r1 + 4], r0  ; y = 25  at addr 60
+	mov r0, 0
+	st [r1 + 6], r0  ; transparent color is black (0) at addr 62
+
+	mov r0, sprite_def
+	mov r1, SPRITE_DEFINITION_ADDRESS + 8    ; second sprite at addr 64
+	st [r1], r0  ; sprite definition is at sprite_def address
+	mov r0, 50
+	st [r1 + 2], r0  ; x = 50  at addr 66
+	mov r0, 25
+	st [r1 + 4], r0  ; y = 25  at addr 68
+	mov r0, 0
+	st [r1 + 6], r0  ; transparent color is black (0) at addr 70
+
+	mov r0, sprite_def
+	mov r1, SPRITE_DEFINITION_ADDRESS + 16    ; third sprite at addr 72 is not shown
+	st [r1], r0  ; sprite definition is at sprite_def address
+	mov r0, 100
+	st [r1 + 2], r0  ; x = 100  at addr 74
+	mov r0, 25
+	st [r1 + 4], r0  ; y = 25  at addr 76
+	mov r0, 0
+	st [r1 + 6], r0  ; transparent color is black (0) at addr 78
+
+
+	mov r0, 2000
+	call delay
+	
+	mov r1, SPRITE_DEFINITION_ADDRESS    ; addr 56
+	mov r0, 60
+	st [r1 + 2], r0  ; x = 60  at addr 58
+	mov r0, 60
+	st [r1 + 4], r0  ; y = 60  at addr 60
+
+	mov r1, SPRITE_DEFINITION_ADDRESS + 8    ; second sprite at addr 64
+	mov r0, 80
+	st [r1 + 2], r0  ; x = 80  at addr 66
+	mov r0, 70
+	st [r1 + 4], r0  ; y = 60  at addr 68
+
+	mov r1, SPRITE_DEFINITION_ADDRESS + 16    ; thrid sprite at addr 72
+	mov r0, 120
+	st [r1 + 2], r0  ; x = 120  at addr 74
+	mov r0, 80
+	st [r1 + 4], r0  ; y = 60  at addr 76
+
+
+	mov r0, 2000
+	call delay
+	
+	mov r1, SPRITE_DEFINITION_ADDRESS    ; addr 56
+	mov r0, 60
+	st [r1 + 2], r0  ; x = 60  at addr 58
+	mov r0, 90
+	st [r1 + 4], r0  ; y = 60  at addr 60
+
+	mov r1, SPRITE_DEFINITION_ADDRESS + 8    ; second sprite at addr 64
+	mov r0, 80
+	st [r1 + 2], r0  ; x = 80  at addr 66
+	mov r0, 100
+	st [r1 + 4], r0  ; y = 60  at addr 68
+
+	mov r1, SPRITE_DEFINITION_ADDRESS + 16    ; thrid sprite at addr 72
+	mov r0, 120
+	st [r1 + 2], r0  ; x = 120  at addr 74
+	mov r0, 120
+	st [r1 + 4], r0  ; y = 60  at addr 76
+
 		
-end:	
 	halt
+
+; sprite definition
+sprite_def:
+  #d16 0x0000, 0x0000, 0x0000, 0x0000  ; 0
+  #d16 0x0000, 0x000f, 0xf000, 0x0000  ; 1
+  #d16 0x0000, 0x000f, 0xf000, 0x0000  ; 2
+  #d16 0x0000, 0x000f, 0xf000, 0x0000  ; 3
+  #d16 0x0000, 0x004f, 0xf400, 0x0000  ; 4
+  #d16 0x0000, 0x004f, 0xf400, 0x0000  ; 5
+  #d16 0x0000, 0x044f, 0xf440, 0x0000  ; 6
+  #d16 0x0000, 0x444f, 0xf444, 0x0000  ; 7
+  #d16 0x0004, 0x444f, 0xf444, 0x4000  ; 8
+  #d16 0x0044, 0x444f, 0xf444, 0x4400  ; 9
+  #d16 0x0400, 0x004f, 0xf400, 0x0040  ; 10
+  #d16 0x0000, 0x004f, 0xf400, 0x0000  ; 11
+  #d16 0x0000, 0x004f, 0xf400, 0x0000  ; 12
+  #d16 0x0000, 0x041f, 0xf140, 0x0000  ; 13
+  #d16 0x0000, 0x4111, 0x1114, 0x0000  ; 14
+  #d16 0x0004, 0x4444, 0x4444, 0x4000  ; 15
+
+; ##################################################################
+; function delay(r0)
+; waits for the r0 milliseconds
+; ##################################################################
+delay:
+	push r1
+	push r2
+delay_loop2:
+	in r1, [PORT_MILLIS]
+delay_loop1:
+	in r2, [PORT_MILLIS]
+	sub r2, r1
+	jz delay_loop1			; one millisecond elapsed here
+	dec r0
+	jnz delay_loop2
+	
+	pop r1
+	pop r2
+	ret
+
 
 ; ####################################################################################################
 ; function wipe(words)
@@ -208,8 +347,7 @@ ds3:
   j ds5
 ds1:
 	mov r7, -1		; yi = -1
-  inv r5
-  add r5, 1			; dy = -dy
+  neg r5  			; dy = -dy
   j ds2
 ; ######################################################################
 
@@ -263,16 +401,18 @@ dn3:
   j dn5
 dn1:
 	mov r7, -1		; xi = -1
-  inv r6
-  add r6, 1			; dx = -dx
+  neg r6     		; dx = -dx
   j dn2
 ; ######################################################################
 
+; ####################################################################################################
+; function r5=line_abs(r5)
+; r5 = abs(r5)
+; ####################################################################################################
 line_abs:
 	cmp r5, 0
 	jg la1
-	inv r5
-	add r5, 1
+	neg r5
 la1:
 	ret
 

@@ -190,7 +190,6 @@ random1:
 	ret
 neg_random:
 	neg r0
-	add r0, 1
 	j random1
 
 ; ##################################################################
@@ -390,7 +389,7 @@ clrscr:
 clrscr1:	
 	st [r1 + VIDEO_0], r0
 	inc r1
-	cmp r1, (STARTY+HEIGHT)*160
+	cmp r1, (60)*160
 	jnz clrscr1
 	
 	pop r1
@@ -883,6 +882,21 @@ game_end:
 	mov r0, 88			; 'X'
 	call putc				; GotoXY(x, y); write('X')
 	j ms_end		
+
+; #######################################################################################
+; function wipe_screen(ro)
+; deletes a screen with a given number of characters to be deleted, starting from the first character (0, 0)
+; #######################################################################################
+wipe_screen:
+	push r2
+	mov r2, r0				; r2 holds the number_of_characters_to_be_deleted
+	mov r0, 0
+ws_loop1:
+	st [r2 + VIDEO_0], r0
+	dec r2
+	jp ws_loop1
+	pop r2		
+ret
 
 ; ##################################################################
 ; function delay(r0)

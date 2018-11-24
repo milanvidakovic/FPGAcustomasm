@@ -135,6 +135,16 @@ xor.b {dest: reg}, [{src: reg}]           -> src[3:0] @ dest[3:0] @ 4'0x5 @ 4'0x
 xor.b {dest: reg}, [{value}]              ->    4'0x0 @ dest[3:0] @ 4'0x6 @ 4'0x6 @ value[15:0]
 xor.b {dest: reg}, [{src: reg} + {value}] -> src[3:0] @ dest[3:0] @ 4'0x7 @ 4'0x6 @ value[15:0]
 xor.b {dest: reg}, [{src: reg} - {value}] -> src[3:0] @ dest[3:0] @ 4'0x7 @ 4'0x6 @ -value[15:0]
+
+neg {src: reg}                            -> src[3:0] @ src[3:0]  @ 4'0x8 @ 4'0x6 
+neg [{src: reg}]                          -> src[3:0] @ 4'0x0     @ 4'0xa @ 4'0x6 
+neg [{value}]                             -> 4'0x0    @ 4'0x0     @ 4'0xb @ 4'0x6 @ value[15:0]
+neg [{src: reg} + {value}]                -> src[3:0] @ 4'0x0     @ 4'0xc @ 4'0x6 @ value[15:0]
+neg [{src: reg} - {value}]                -> src[3:0] @ 4'0x0     @ 4'0xc @ 4'0x6 @ -value[15:0]
+neg.b [{src: reg}]                        -> src[3:0] @ dest[3:0] @ 4'0xd @ 4'0x6 
+neg.b [{value}]                           -> 4'0x0    @ 4'0x0     @ 4'0xe @ 4'0x6 @ value[15:0]
+neg.b [{src: reg} + {value}]              -> src[3:0] @ 4'0x0     @ 4'0xf @ 4'0x6 @ value[15:0]
+neg.b [{src: reg} - {value}]              -> src[3:0] @ 4'0x0     @ 4'0xf @ 4'0x6 @ -value[15:0]
                                                   
 shl {dest: reg}, {src: reg}               -> src[3:0] @ dest[3:0] @ 4'0x0 @ 4'0x7
 shl {dest: reg}, {value}                  ->    4'0x0 @ dest[3:0] @ 4'0x1 @ 4'0x7 @ value[15:0]
@@ -211,14 +221,14 @@ cmp.b {dest: reg}, [{value}]              ->    4'0x0 @ dest[3:0] @ 4'0x6 @ 4'0x
 cmp.b {dest: reg}, [{src: reg} + {value}] -> src[3:0] @ dest[3:0] @ 4'0x7 @ 4'0xa @ value[15:0]
 cmp.b {dest: reg}, [{src: reg} - {value}] -> src[3:0] @ dest[3:0] @ 4'0x7 @ 4'0xa @ -value[15:0]
 
-neg {src: reg}                            -> 4'0x0    @ src[3:0]  @ 4'0x8 @ 4'0xa 
-neg [{src: reg}]                          -> 4'0x0    @ src[3:0]  @ 4'0x9 @ 4'0xa 
-neg [{value}]                             -> 4'0x0    @ 4'0x0     @ 4'0xa @ 4'0xa @ value[15:0]
-neg [{dest: reg} + {value}]               -> 4'0x0    @ dest[3:0] @ 4'0xb @ 4'0xa @ value[15:0]
-neg [{dest: reg} - {value}]               -> 4'0x0    @ dest[3:0] @ 4'0xb @ 4'0xa @ -value[15:0]
-neg.b [{src: reg}]                        -> 4'0x0    @ src[3:0]  @ 4'0xc @ 4'0xa 
-neg.b [{value}]                           -> 4'0x0    @ 4'0x0     @ 4'0xd @ 4'0xa @ value[15:0]
-neg.b [{dest: reg} + {value}]             -> 4'0x0    @ dest[3:0] @ 4'0xe @ 4'0xa @ value[15:0]
-neg.b [{dest: reg} - {value}]             -> 4'0x0    @ dest[3:0] @ 4'0xe @ 4'0xa @ -value[15:0]
+inv {src: reg}                            -> 4'0x0    @ src[3:0]  @ 4'0x8 @ 4'0xa 
+inv [{src: reg}]                          -> 4'0x0    @ src[3:0]  @ 4'0x9 @ 4'0xa 
+inv [{value}]                             -> 4'0x0    @ 4'0x0     @ 4'0xa @ 4'0xa @ value[15:0]
+inv [{dest: reg} + {value}]               -> 4'0x0    @ dest[3:0] @ 4'0xb @ 4'0xa @ value[15:0]
+inv [{dest: reg} - {value}]               -> 4'0x0    @ dest[3:0] @ 4'0xb @ 4'0xa @ -value[15:0]
+inv.b [{src: reg}]                        -> 4'0x0    @ src[3:0]  @ 4'0xc @ 4'0xa 
+inv.b [{value}]                           -> 4'0x0    @ 4'0x0     @ 4'0xd @ 4'0xa @ value[15:0]
+inv.b [{dest: reg} + {value}]             -> 4'0x0    @ dest[3:0] @ 4'0xe @ 4'0xa @ value[15:0]
+inv.b [{dest: reg} - {value}]             -> 4'0x0    @ dest[3:0] @ 4'0xe @ 4'0xa @ -value[15:0]
 
 }
